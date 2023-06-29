@@ -32,9 +32,9 @@ const HW13 = () => {
         setInfo('...loading')
         axios
         
-            .post(url, {success: x})
+            .post(url, (x===false? {}: x=== undefined?  {success: false} : {success: x}))
             .then((res) => {
-                setCode('Код 200!')
+                setCode('...всё ок')
                 setImage(success200)
 
                 // дописать
@@ -42,18 +42,19 @@ const HW13 = () => {
             })
             .catch((e) => {
                 // дописать
-                if (x === false) {
-                    setCode('Ошибка 400!')
+                console.log(e.response.status)
+                if (e.response.status === 400) {
+                    setCode('400')
                     setImage(error400)
                 }
                
-                if (x === undefined) {
-                    setCode('Ошибка 500!')
+                if (e.response.status === 500) {
+                    setCode('500')
                     setImage(error500)
                 }
 
-                if (x === null) {
-                    setCode('Error!')
+                if (e.response.status === 0) {
+                    setCode('Error')
                     setImage(errorUnknown)
                 }
             })
